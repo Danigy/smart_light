@@ -1,0 +1,21 @@
+{
+  "name": "raspi_smart_light",
+  "version": "1.0.0",
+  "description": "Raspi smart light",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rpi"
+  ],
+  "author": "Rosherh (Gorelykh Anatoly)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "path": "^0.12.7",
+    "rpi-gpio": "^0.9.1",
+    "socket.io": "^2.1.0"
+  }
+}
