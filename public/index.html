@@ -12,22 +12,17 @@
     <ul id="messages"></ul>
     <form action="">
         <input id="m" autocomplete="off" />
-        <button>Send</button>
+        <button>Send</button> 
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+    <script src="assets/app.js"></script>
     <script>
-        'use strict';
-        $(function() {
-            let socket = io();
-            $('form').on('submit', () => {
-                socket.emit('message', $('input').val());
-                $('input').val('');
-                return false;
-            });
+        $(() => {
+            const app = new App();
+            app.init()
         });
-
     </script>
 </body>
 </html>
