@@ -19,28 +19,42 @@ var App = function () {
     _createClass(App, [{
         key: 'init',
         value: function init() {
-            this.submitMessage(this);
+            this.setupChecked(this);
             this.renderMessage(this);
+            this.renderTemperature(this);
         }
 
         /**
-         * Отправка сообщения
+         * Проверка события
          */
 
     }, {
-        key: 'submitMessage',
-        value: function submitMessage(self) {
-            $('form').on('submit', function () {
-                self.socket.emit('message', $('input').val());
-                $('input').val('');
-                return false;
+        key: 'setupChecked',
+        value: function setupChecked(self) {
+            var el = $('#id-name--1');
+            $(el).on('click', function (e) {
+                var isOn = $(el).prop('checked');
+                self.socket.emit('light_on', isOn);
             });
         }
     }, {
         key: 'renderMessage',
         value: function renderMessage(self) {
-            self.socket.on('message', function (msg) {
-                $('#messages').append($('<li>').text(msg));
+            self.socket.on('light_on', function (isOn) {
+                var el = $('input');
+                if (isOn) {
+                    $(el).addClass('active');
+                } else {
+                    $(el).removeClass('active');
+                }
+            });
+        }
+    }, {
+        key: 'renderTemperature',
+        value: function renderTemperature(self) {
+            self.socket.on('send_temperature', function (data) {
+                var el = $('#temperature');
+                $(el).text(data);
             });
         }
     }]);

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "node index.js",
-    "build":"babel core -d public/assets",
-    "start":"nodemon index.js --exec babel-node --presets env"
+    "build": "babel core -d public/assets",
+    "start": "nodemon index.js --exec babel-node --presets env"
   },
   "keywords": [
     "rpi"
@@ -23,6 +23,8 @@
     "nodemon": "^1.17.3",
     "path": "^0.12.7",
     "rpi-gpio": "^0.9.1",
-    "socket.io": "^2.1.0"
+    "serialport": "^6.2.0",
+    "socket.io": "^2.1.0",
+    "string_decoder": "^1.1.1"
   }
 }

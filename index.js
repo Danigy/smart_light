@@ -2,9 +2,20 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const SerialPost = require('serialport');
+const StringDecoder = require('string_decoder').StringDecoder;
+const Decoder = new StringDecoder('utf8');
 const config = require('./config');
 
 app.use('/assets', express.static(__dirname + '/public/assets'));
+
+/**
+ * Setup SerialPort
+ * Raspberry - /dev/ttyUSB0
+ */
+const port = new SerialPost(config.portName, {
+    baudRate: 9600,
+});
 
 /**
  * Точка входа
@@ -16,24 +27,25 @@ app.get('/', (req, res) => {
 /**
  * Открываем сокет
  */
+let isChecked = false;
 io.on('connection', socket => {
+    if (socket.connected) {
+        io.emit('light_on', isChecked);
+    }
 
-    console.log('Device connected: ' + socket.connected);
+    port.on('data', (data) => {
+        let json = JSON.parse(Decoder.write(data));
+        let temperature = json['temperature'];
+        io.emit('send_temperature', temperature);
+    });
 
     /**
      * Прослушиваем событие
      */
-    socket.on('message', msg => {
-
-        /**
-         * Свое действие
-         */
-        console.log(msg);
-
-        /**
-         * Отправляем во front-end
-         */
-        io.emit('message', msg);
+    socket.on('light_on', isOn => {
+        isChecked = isOn;
+        port.write(Number(isChecked).toString());
+        io.emit('light_on', isChecked);
     });
 
     socket.on('disconnect', () => {
