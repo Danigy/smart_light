@@ -33,11 +33,11 @@ io.on('connection', socket => {
         io.emit('light_on', isChecked);
     }
 
-    port.on('data', (data) => {
-        let json = JSON.parse(Decoder.write(data));
-        let temperature = json['temperature'];
-        io.emit('send_temperature', temperature);
-    });
+    // port.on('data', (data) => {
+    //     let json = JSON.parse(Decoder.write(data));
+    //     let temperature = json['temperature'];
+    //     io.emit('send_temperature', temperature);
+    // });
 
     /**
      * Прослушиваем событие

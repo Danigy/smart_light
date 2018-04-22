@@ -8,9 +8,22 @@ class App {
      * Инициализация методов
      */
     init() {
-        self.socket.on('light_on', isOn => {
+        this.socket.on('light_on', isOn => {
             self.isChecked = isOn;
         });
+
+        if (annyang) {
+            var commands = {
+                'hello': function() { alert('Hello world!'); }
+            }; 
+
+            // Add our commands to annyang 
+            annyang.addCommands(commands);
+            
+            // Start listening. 
+            annyang.start();
+
+        }
 
         this.setupChecked(this);
         this.renderMessage(this);

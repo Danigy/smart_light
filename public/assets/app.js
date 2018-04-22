@@ -9,6 +9,7 @@ var App = function () {
         _classCallCheck(this, App);
 
         this.socket = io();
+        this.isChecked = false;
     }
 
     /**
@@ -19,6 +20,24 @@ var App = function () {
     _createClass(App, [{
         key: 'init',
         value: function init() {
+            this.socket.on('light_on', function (isOn) {
+                self.isChecked = isOn;
+            });
+
+            if (annyang) {
+                var commands = {
+                    'hello': function hello() {
+                        alert('Hello world!');
+                    }
+                };
+
+                // Add our commands to annyang 
+                annyang.addCommands(commands);
+
+                // Start listening. 
+                annyang.start();
+            }
+
             this.setupChecked(this);
             this.renderMessage(this);
             this.renderTemperature(this);
@@ -40,14 +59,14 @@ var App = function () {
     }, {
         key: 'renderMessage',
         value: function renderMessage(self) {
-            self.socket.on('light_on', function (isOn) {
-                var el = $('input');
-                if (isOn) {
-                    $(el).addClass('active');
-                } else {
-                    $(el).removeClass('active');
-                }
-            });
+            var el = $('#id-name--1');
+            if (self.isChecked) {
+                $(el).prop('checked', true);
+                $(el).addClass('active');
+            } else {
+                $(el).prop('checked', false);
+                $(el).removeClass('active');
+            }
         }
     }, {
         key: 'renderTemperature',
